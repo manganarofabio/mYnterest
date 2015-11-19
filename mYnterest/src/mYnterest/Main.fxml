@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
-	
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="mYnterest.LogInController">
-	<!-- TODO Add Nodes -->
+
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="mYnterest.LogInController">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="txtUser" layoutX="95.0" layoutY="123.0" />
+            <PasswordField fx:id="txtPass" layoutX="95.0" layoutY="200.0" />
+            <Button fx:id="btnSignIn" layoutX="261.0" layoutY="285.0" mnemonicParsing="false" text="SIGN IN" />
+            <Label layoutX="368.0" layoutY="135.0" text="USER" />
+            <Label layoutX="368.0" layoutY="206.0" text="PASSWORD" />
+         </children>
+      </Pane>
+   </center>
 </BorderPane>
