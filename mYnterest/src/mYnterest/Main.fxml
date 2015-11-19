@@ -5,16 +5,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="mYnterest.LogInController">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mYnterest.LogInController">
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="txtUser" layoutX="95.0" layoutY="123.0" />
-            <PasswordField fx:id="txtPass" layoutX="95.0" layoutY="200.0" />
+            <TextField fx:id="txtUser" layoutX="151.0" layoutY="123.0" />
+            <PasswordField fx:id="txtPass" layoutX="151.0" layoutY="188.0" />
             <Button fx:id="btnSignIn" layoutX="261.0" layoutY="285.0" mnemonicParsing="false" text="SIGN IN" />
-            <Label layoutX="368.0" layoutY="135.0" text="USER" />
-            <Label layoutX="368.0" layoutY="206.0" text="PASSWORD" />
+            <Label layoutX="368.0" layoutY="127.0" text="USER" />
+            <Label layoutX="350.0" layoutY="192.0" text="PASSWORD" />
+            <Button fx:id="newUserbtn" layoutX="42.0" layoutY="285.0" mnemonicParsing="false" onAction="#newUser" text="NEW USER" />
+            <TextField fx:id="errTxt" editable="true" layoutX="42.0" layoutY="332.0" />
          </children>
       </Pane>
    </center>
