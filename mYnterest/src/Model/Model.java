@@ -23,8 +23,10 @@ public class Model {
 		PreparedStatement statCreate = con.prepareStatement(templateCreate);
 		statCheck.setString(1,u.getName());
 		
+		ResultSet rs = statCheck.executeQuery();
 		
-		 if(statCheck.execute() == true){
+		 if(rs.next()){
+			 
 			 statCheck.close();
 			 con.close();
 			 return false;    //ritorna falso se l'utente esiste già altrimenti lo crea e torna true
@@ -34,8 +36,7 @@ public class Model {
 			 statCreate.setString(1,u.getName());
 			 statCreate.setString(2,u.getPassword());
 			 statCreate.execute();
-			 
-	  	
+			 	  	
 			 statCreate.close();
 			 con.close();
 			 return true;
