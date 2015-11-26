@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -72,9 +73,46 @@ public class Model {
 		}
 			
 		return false;  //utente non esitente oppure password sbagliata
+	}
+	
+	
+	//Implementare per ogni SO!!
+	public boolean createDirDb (User u) throws ClassNotFoundException, SQLException	{
+		String OS = System.getProperty("os.name").toLowerCase();
 		
+		if (OS.indexOf("win") >= 0) {
+			System.out.println("This is Windows");
+			File dir = new File("C:\\InterestOf" + u.getName()); 
+			
+			//CREAZIONE CARTELLA
+			if(dir.mkdir())	{
+			
+			//CREAZIONE DB INTERESSI
+			Class.forName("org.sqlite.JDBC"); 
+			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+			Statement stat = con.createStatement();
+			stat.executeUpdate("create table Interesse (name varchar PRIMARY KEY)");
+			
+			return true;
+			}
+			
+		} else if (OS.indexOf("mac") >= 0) {
+			System.out.println("This is Mac");
+		} else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 ) {
+			System.out.println("This is Unix or Linux");
+		} else {
+			System.out.println("Your OS is not support!!");
+		}
+		
+	
+		return false;
 		
 	}
+	
+	
+	
+	
+	
 }
 
 

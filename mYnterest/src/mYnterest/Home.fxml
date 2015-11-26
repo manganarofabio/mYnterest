@@ -5,9 +5,19 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane prefHeight="800.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+<BorderPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mYnterest.HomeController">
    <center>
       <Label prefHeight="167.0" prefWidth="245.0" text="                   HOME" BorderPane.alignment="CENTER" />
    </center>
+   <left>
+      <VBox prefHeight="800.0" prefWidth="262.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnAddInt" mnemonicParsing="false" onAction="#addInterest" prefHeight="125.0" prefWidth="297.0" text="Aggiungi interesse" />
+            <Button fx:id="btnDelInt" mnemonicParsing="false" onAction="#deleteInterest" prefHeight="135.0" prefWidth="339.0" text="Elimina Interesse" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <Label fx:id="lblName" BorderPane.alignment="CENTER" />
+   </top>
 </BorderPane>
