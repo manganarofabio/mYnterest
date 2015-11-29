@@ -34,7 +34,7 @@ public class HomeModel {
 	public boolean createInterest(Interest i) throws ClassNotFoundException, SQLException {
 	
 		Class.forName("org.sqlite.JDBC"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+		Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db");  //DA MODIFICARE A SECONDA DEL SISTEMA OPERATIVO!!!!
 		
 		String templateCheck = "select * from Interesse where name=?";  //modello di querys
 		String templateCreate = "insert into Interesse (name) VALUES (?)";
