@@ -28,10 +28,19 @@ public class LogInController {
 
 	Model logInModel;
 	
+	
     @FXML
     private TextField txtUser;
+    
+	public TextField getTxtUser() {
+		return txtUser;
+	}
 
-    @FXML
+	public void setTxtUser(TextField txtUser) {
+		this.txtUser = txtUser;
+	}
+
+	@FXML
     private PasswordField txtPass;
 
     @FXML
@@ -59,9 +68,12 @@ public class LogInController {
 			//change scene
 			
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+			
+			HomeController hc = new HomeController(new HomeModel(new User(txtUser.getText(), txtPass.getText())));
+			
+			loader.setController(hc);
+			
 			BorderPane root = (BorderPane)loader.load();
-			HomeController controller = loader.getController();
-			controller.setModel(new HomeModel(new User(user,password)));
 			
 			
 			Scene home_scene = new Scene(root);
@@ -123,9 +135,5 @@ public class LogInController {
     
     public void setModel (Model m)	{
     	this.logInModel=m;
-    }
-
-    
-    
-    
+    }  
 }

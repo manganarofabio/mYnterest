@@ -17,6 +17,20 @@ public class HomeModel {
 		this.u = u;
 	}
 
+	
+	
+	public User getU() {
+		return u;
+	}
+
+
+
+	public void setU(User u) {
+		this.u = u;
+	}
+
+
+
 	public boolean createInterest(Interest i) throws ClassNotFoundException, SQLException {
 	
 		Class.forName("org.sqlite.JDBC"); 

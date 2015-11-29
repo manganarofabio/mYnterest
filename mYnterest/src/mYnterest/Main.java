@@ -29,7 +29,7 @@ public class Main extends Application {
 													"password varchar);");
 		
 		    con.close(); 
-		    System.out.println("ciao");
+		    
 			}
 			
 		    

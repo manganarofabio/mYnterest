@@ -15,7 +15,5 @@ public class Interest {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 
 }
