@@ -92,6 +92,10 @@ public class Model {
 			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
 			Statement stat = con.createStatement();
 			stat.executeUpdate("create table Interesse (name varchar PRIMARY KEY)");
+			stat.executeUpdate("create table Notizia (titolo varchar, "
+													+ "contenuto varchar, "
+													+ "interesse varchar references Interesse, "
+													+ "PRIMARY KEY (titolo, interesse))");
 			
 			return true;
 			}

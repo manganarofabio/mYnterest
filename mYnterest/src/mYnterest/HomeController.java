@@ -1,5 +1,6 @@
 package mYnterest;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -7,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -21,7 +23,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
@@ -81,9 +87,38 @@ public class HomeController implements Initializable {
 	
 	
 	@FXML
-	void deleteInterest(ActionEvent event)	{
+	void deleteInterest(ActionEvent event) throws ClassNotFoundException, SQLException	{
+		
+		ArrayList<String> choices = new ArrayList<String>();
+		for (Button b : buttons)	{
+			choices.add(b.getText());
+		}
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>(buttons.get(0).getText(), choices);
+		dialog.setTitle("Elimina interesse");
+		dialog.setHeaderText("Quale interesse vuoi eliminare?");
+		dialog.setContentText("Scegli l'interesse:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    System.out.println("Your choice: " + result.get());
+		
+		    Alert alert = new Alert(AlertType.CONFIRMATION);
+		    alert.setTitle("Conferma eliminazione");
+		    alert.setHeaderText("Attenzione, stai per eliminare un interesse e tutte le notizie ad esso associate");
+		    alert.setContentText("Sei sicuro di voler continuare? Le notizie raccolte non saranno più disponibili");
+
+		    Optional<ButtonType> result2 = alert.showAndWait();
+		   	if (result2.get() == ButtonType.OK){
+		   		model.removeInterest(result.get(), buttons, gridBtn);
+		   	} else {
+		   		System.out.println("Si è deciso di non eliminare alcun interesse");
+		   	}
+		}
 		
 	}
+	
 
 
 	@Override
@@ -97,15 +132,16 @@ public class HomeController implements Initializable {
 			e1.printStackTrace();
 		} 
 		try {
-			System.out.println(model.getU().getName());
-			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + model.getU().getName() + "\\Interessi.db"); //DA MODIFICARE A SECONDA DEL SISTEMA OPERATIVO!!!!
+			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + model.getU().getName() + "\\Interessi.db"); 
+			
 			String templateLoad = "select * from Interesse";//modello di query
 			PreparedStatement statLoad = con.prepareStatement(templateLoad);
 			ResultSet rs = statLoad.executeQuery();
 			
 			
 			
-			while(rs.next())	{
+		
+			while(rs.next())	{  //ciclo di creazione dell'ArrayList dei pulsanti
 				System.out.println(model.getU().getName());
 				String interesse = rs.getString(1);
 				Button but = new Button(interesse);
@@ -130,17 +166,14 @@ public class HomeController implements Initializable {
 			});
 			}
 
-			int j=0;
-			for(int i=0; i<buttons.size(); i++)	{
-				gridBtn.add(buttons.get(i), i, j);
-				if (i==2)	
-					j++;
-					
-			}		
+			model.createGrid(buttons, gridBtn); //attacchiamo i bottoni dell'arrayList al pannello
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		
 	}
 
 	
