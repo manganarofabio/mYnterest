@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 import Model.Model;
+import Model.MyConnection;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -22,8 +23,11 @@ public class Main extends Application {
 			
 			if(!f.exists()) { //controllo esistenza db
 		
-			Class.forName("org.sqlite.JDBC"); 
-			Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db"); 
+			//Class.forName("org.sqlite.JDBC"); 
+			//Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db");
+				
+			Connection con = MyConnection.connectToUtenti();	
+				
 			Statement stat = con.createStatement();
 			stat.executeUpdate("create table Users (name varchar PRIMARY KEY," + 
 													"password varchar);");

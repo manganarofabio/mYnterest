@@ -1,4 +1,4 @@
-package mYnterest;
+package Model;
 
 public class Interest {
 	private String name;

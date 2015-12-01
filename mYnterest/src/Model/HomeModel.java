@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import mYnterest.Interest;
 
 public class HomeModel {
 	
@@ -36,8 +35,10 @@ public class HomeModel {
 
 	public boolean createInterest(Interest i) throws ClassNotFoundException, SQLException {
 	
-		Class.forName("org.sqlite.JDBC"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+		//Class.forName("org.sqlite.JDBC"); 
+		//Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+		Connection con = MyConnection.connectToInteressi(u);
+		
 		
 		String templateCheck = "select * from Interesse where name=?";  //modello di querys
 		String templateCreate = "insert into Interesse (name) VALUES (?)";
@@ -81,8 +82,10 @@ public class HomeModel {
 			}
 		}
 		
-		Class.forName("org.sqlite.JDBC"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+		//Class.forName("org.sqlite.JDBC"); 
+		//Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+		
+		Connection con = MyConnection.connectToInteressi(u);
 		
 		String templateDelN = "delete from Notizia where interesse=?";
 		String templateDelI = "delete from Interesse where name=?";

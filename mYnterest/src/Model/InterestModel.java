@@ -1,7 +1,5 @@
 package Model;
 
-import mYnterest.Interest;
-
 public class InterestModel {
 
 	

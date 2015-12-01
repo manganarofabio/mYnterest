@@ -14,8 +14,10 @@ public class Model {
 	
 	
 	public boolean insertUser (User u) throws ClassNotFoundException, SQLException	{
-		Class.forName("org.sqlite.JDBC"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db"); 
+		//Class.forName("org.sqlite.JDBC"); 
+		//Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db"); 
+		
+		Connection con = MyConnection.connectToUtenti();
 		
 		String templateCheck = "select * from Users where name=?";//modello di query
 		String templateCreate = "insert into Users (name, password) VALUES (?,?)";
@@ -51,8 +53,10 @@ public class Model {
 		
 		ResultSet rs;
 		
-		Class.forName("org.sqlite.JDBC"); 
-		Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db"); 
+		//Class.forName("org.sqlite.JDBC"); 
+		//Connection con = DriverManager.getConnection("jdbc:sqlite:Utenti.db"); 
+		
+		Connection con = MyConnection.connectToUtenti();
 		
 		String templateCheck = "select * from Users where name=?";
 		PreparedStatement statCheck = con.prepareStatement(templateCheck);
@@ -76,20 +80,28 @@ public class Model {
 	}
 	
 	
-	//Implementare per ogni SO!!
+	
 	public boolean createDirDb (User u) throws ClassNotFoundException, SQLException	{
-		String OS = System.getProperty("os.name").toLowerCase();
 		
-		if (OS.indexOf("win") >= 0) {
-			System.out.println("This is Windows");
-			File dir = new File("C:\\InterestOf" + u.getName()); 
+		
+		//String OS = System.getProperty("os.name").toLowerCase();
+		
+		//if (OS.indexOf("win") >= 0) {
+			//System.out.println("This is Windows");
+		
+
+			File[] roots = File.listRoots();  //valido per tutti gli os
+			File dir = new File(roots[0] + "InterestOf" + u.getName()); 
 			
 			//CREAZIONE CARTELLA
 			if(dir.mkdir())	{
 			
 			//CREAZIONE DB INTERESSI
-			Class.forName("org.sqlite.JDBC"); 
-			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+			//Class.forName("org.sqlite.JDBC"); 
+			//Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + u.getName() + "\\Interessi.db"); 
+			
+			Connection con = MyConnection.connectToInteressi(u);
+			
 			Statement stat = con.createStatement();
 			stat.executeUpdate("create table Interesse (name varchar PRIMARY KEY)");
 			stat.executeUpdate("create table Notizia (titolo varchar, "
@@ -100,16 +112,16 @@ public class Model {
 			return true;
 			}
 			
-		} else if (OS.indexOf("mac") >= 0) {
+		/*} else if (OS.indexOf("mac") >= 0) {
 			System.out.println("This is Mac");
 		} else if (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 ) {
 			System.out.println("This is Unix or Linux");
 		} else {
 			System.out.println("Your OS is not support!!");
-		}
+		}*/
 		
 	
-		return false;
+			else return false;
 		
 	}
 	

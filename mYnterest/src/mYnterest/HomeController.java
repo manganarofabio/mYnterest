@@ -14,7 +14,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Model.HomeModel;
+import Model.Interest;
 import Model.InterestModel;
+import Model.MyConnection;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,7 +40,7 @@ public class HomeController implements Initializable {
 
 	
 	 @FXML
-	 private Button btnAddInt;
+    private Button btnAddInt;
 	 
 	HomeModel model;
 	
@@ -77,6 +79,18 @@ public class HomeController implements Initializable {
 		    if(model.createInterest(new Interest(result.get())))	{
 		    	System.out.println("Creato nuovo interesse:" + result.get());
 		    	buttons.add(new Button(result.get()));
+		    	buttons.get(buttons.size()-1).setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						try {
+							goToInterest(event);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+		    	
 		    	gridBtn.add(buttons.get(buttons.size()-1), (buttons.size()-1)%3, (buttons.size()-1)/3); //modificare numero colonne in initialize()
 		    }
 		    else 
@@ -119,6 +133,34 @@ public class HomeController implements Initializable {
 		
 	}
 	
+	
+
+	public void goToInterest(ActionEvent event) throws IOException	{
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Interest.fxml"));
+		
+		Interest i = new Interest(((Labeled) event.getSource()).getText());
+		
+		InterestController ic = new InterestController(new InterestModel(model.getU(), i));
+			
+		loader.setController(ic);
+		
+		System.out.println(i.getName());
+			
+		BorderPane root = (BorderPane)loader.load(); //qui viene eseguito il metodo initialize() che inizializza il controller
+		
+	
+		Scene home_scene = new Scene(root);
+		
+		Stage primaryStage = (Stage) ( (Node) event.getSource()).getScene().getWindow();
+		primaryStage.setScene(home_scene);
+		
+		primaryStage.show();
+	
+
+}
+
+	
 
 
 	@Override
@@ -132,8 +174,11 @@ public class HomeController implements Initializable {
 			e1.printStackTrace();
 		} 
 		try {
-			Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + model.getU().getName() + "\\Interessi.db"); 
+			//Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\InterestOf" + model.getU().getName() + "\\Interessi.db"); 
 			
+			Connection con = MyConnection.connectToInteressi(model.getU());
+			
+		
 			String templateLoad = "select * from Interesse";//modello di query
 			PreparedStatement statLoad = con.prepareStatement(templateLoad);
 			ResultSet rs = statLoad.executeQuery();
@@ -175,36 +220,15 @@ public class HomeController implements Initializable {
 		} 
 		
 	}
-
 	
-	public void goToInterest(ActionEvent event) throws IOException	{
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("Interest.fxml"));
-		
-		Interest i = new Interest(((Labeled) event.getSource()).getText());
-		
-		InterestController ic = new InterestController(new InterestModel(model.getU(), i));
-			
-		loader.setController(ic);
-		
-		System.out.println(i.getName());
-			
-		BorderPane root = (BorderPane)loader.load(); //qui viene eseguito il metodo initialize() che inizializza il controller
-		
 	
-		Scene home_scene = new Scene(root);
-		
-		Stage primaryStage = (Stage) ( (Node) event.getSource()).getScene().getWindow();
-		primaryStage.setScene(home_scene);
-		
-		primaryStage.show();
-		
 	
-	}
+	
+	
 
 
     
 	
-	}
+}
 	
 	
