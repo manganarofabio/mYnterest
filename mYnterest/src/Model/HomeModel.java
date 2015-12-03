@@ -79,6 +79,7 @@ public class HomeModel {
 		for(int i=0; i<buttons.size(); i++)	{
 			if(buttons.get(i).getText()==interestName)	{
 				buttons.remove(i);
+				break;
 			}
 		}
 		
