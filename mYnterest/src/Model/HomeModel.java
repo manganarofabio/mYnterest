@@ -114,11 +114,12 @@ public class HomeModel {
 	}
 
 	public void createGrid (ArrayList<Button> buttons, GridPane gp)	{
-		System.out.println(buttons.size());
+		//System.out.println(buttons.size());
 		
+		/*
 		for(int k=0; k<buttons.size(); k++)	{
 			System.out.println(buttons.get(k).getText());
-		}
+		}*/
 		
 		int c=0;
 		int r=0;
