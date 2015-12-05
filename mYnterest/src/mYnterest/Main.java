@@ -37,11 +37,11 @@ public class Main extends Application {
 			}
 			
 		    
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
 			BorderPane root = (BorderPane)loader.load();
 			LogInController controller = loader.getController();
 			controller.setModel(new Model());
-			Scene scene = new Scene(root,600,400);
+			Scene scene = new Scene(root,585,361);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();

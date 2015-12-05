@@ -77,6 +77,11 @@ public class InterestController implements Initializable {
 		System.out.println(im.getI().getName());
 		lbl.setText(im.getI().getName());
 		
+		
+		
+		
+		//ricerca delle notizie
+		
 	}
 	
 	

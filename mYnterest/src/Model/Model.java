@@ -1,12 +1,19 @@
 package Model;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.apache.commons.io.FileUtils;
 
 public class Model {
 
@@ -69,16 +76,63 @@ public class Model {
 			//l'utente esiste quindi controllo la password
 			if(rs.getString("password").equals(u.getPassword())){
 				
-			
+				con.close();
 				return true;  //utente verificato
 			}
 			    
 			
 		}
-			
+		con.close();	
 		return false;  //utente non esitente oppure password sbagliata
 	}
 	
+	
+	
+	public boolean deleteUserDb(User u) throws SQLException, IOException{
+		
+		//System.out.println("delete ok");
+		int rs;
+		Connection con = MyConnection.connectToUtenti();
+		
+		String templateDelete = "delete from Users where name=?";
+		PreparedStatement statDelete= con.prepareStatement(templateDelete);
+		statDelete.setString(1,u.getName());
+		rs = statDelete.executeUpdate();
+		
+		
+		if(rs == 1){ //utente cancellato dal db ->elimino la cartella
+			
+			//System.out.println("delete ok");
+			
+			
+		
+			File[] roots = File.listRoots();  //valido per tutti gli os
+			
+			File dir = new File(roots[0] + "InterestOf" + u.getName());
+			
+			Path path = Paths.get(roots[0] + "InterestOf" + u.getName());
+			
+			if(Files.exists(path, LinkOption.NOFOLLOW_LINKS)){
+				
+							FileUtils.forceDelete(dir);
+							System.out.println("cartella eliminata");
+							
+							con.close();
+							return true;
+							
+			}
+			
+			
+			else{   //cartella già eliminata
+				con.close();
+				return true;
+			}
+			
+		}
+		
+		con.close();
+		return false;
+	}
 	
 	
 	public boolean createDirDb (User u) throws ClassNotFoundException, SQLException	{
@@ -105,10 +159,12 @@ public class Model {
 			Statement stat = con.createStatement();
 			stat.executeUpdate("create table Interesse (name varchar PRIMARY KEY)");
 			stat.executeUpdate("create table Notizia (titolo varchar, "
+													+ "URL varchar,"
 													+ "contenuto varchar, "
 													+ "interesse varchar references Interesse, "
 													+ "PRIMARY KEY (titolo, interesse))");
 			
+			con.close();
 			return true;
 			}
 			
@@ -121,14 +177,18 @@ public class Model {
 		}*/
 		
 	
-			else return false;
-		
+			else{
+			
+				return false;
+			}
 	}
-	
-	
-	
-	
-	
+		
 }
+	
+	
+	
+	
+	
+
 
 

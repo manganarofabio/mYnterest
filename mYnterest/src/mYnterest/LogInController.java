@@ -32,6 +32,15 @@ public class LogInController {
 	Model logInModel;
 	
 	
+	  
+    @FXML
+    private TextField errTxt;
+    
+	@FXML
+    private PasswordField txtPass;
+    
+	
+	
     @FXML
     private TextField txtUser;
     
@@ -43,15 +52,19 @@ public class LogInController {
 		this.txtUser = txtUser;
 	}
 
-	@FXML
-    private PasswordField txtPass;
+
 
     @FXML
     private Button btnSignIn;
     
     
     @FXML
-    private TextField errTxt;
+    private Button btnDelete;
+    
+    @FXML
+    private Button newUserbtn;
+    
+  
     
     
     @FXML
@@ -62,7 +75,7 @@ public class LogInController {
     	
 	if(user.isEmpty() || password.isEmpty())	{
     		
-    	errTxt.setText("Non valido!");
+    	errTxt.setText("Inserire nome utente e password");
     	errTxt.setVisible(true);
     }
 	
@@ -94,7 +107,7 @@ public class LogInController {
 			
 		}
 		else 
-			errTxt.setText("utente o password errati");
+			errTxt.setText("Utente e\\o password errati");
 			
 		
 		
@@ -115,7 +128,7 @@ public class LogInController {
     	
     	if(user.isEmpty() || password.isEmpty())	{
     		
-    		errTxt.setText("Non valido!");
+    		errTxt.setText("Inserire nuovo nome utente e password");
     		errTxt.setVisible(true);
      	}
     	else {
@@ -136,6 +149,43 @@ public class LogInController {
     	
 
     }
+    
+    
+    
+    @FXML
+    void deleteUser(ActionEvent event) throws ClassNotFoundException, SQLException, IOException {
+    	
+    	
+    	
+    	String user = txtUser.getText();
+    	String password = txtPass.getText();
+    	
+	if(user.isEmpty() || password.isEmpty())	{
+    		
+    	errTxt.setText("Inserire utente da eliminare");
+    	errTxt.setVisible(true);
+    }
+	
+	else{
+		
+		if( logInModel.logInUser(new User(user,password)) ){   //utente presente nel db e password verificata->posso procedere all'eliminizaione
+			
+			//System.out.println("utente esistente");
+			
+			if( logInModel.deleteUserDb(new User(user,password)) ){
+				
+				errTxt.setText("Utente eliminato");
+			}			
+		}  
+		
+		else{
+		
+			errTxt.setText("Utente non esistente");
+		}	
+	
+	}
+
+}
     
     public void setModel (Model m)	{
     	this.logInModel=m;
